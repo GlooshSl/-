@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 
-// Базовый класс для игровых объектов
 class GameObject {
 public:
     std::string title;
@@ -11,18 +10,15 @@ public:
 
     GameObject(const std::string& title = "", int hitPoints = 0) : title(title), hitPoints(hitPoints) {}
 
-    // Метод для записи данных в файл
     void store(std::ofstream& file) const {
         file << title << " " << hitPoints << "\n";
     }
 
-    // Метод для чтения данных из файла
     void retrieve(std::ifstream& file) {
         file >> title >> hitPoints;
     }
 };
 
-// Менеджер игровых объектов
 class ObjectHandler {
 public:
     std::vector<GameObject> objects;
@@ -39,7 +35,6 @@ public:
     }
 };
 
-// Сохранение данных в файл
 void storeData(const ObjectHandler& handler, const std::string& filename) {
     std::ofstream file(filename);
     if (!file) {
@@ -56,10 +51,10 @@ void loadData(ObjectHandler& handler, const std::string& filename) {
     if (!file) {
         throw std::runtime_error("Ошибка открытия файла для чтения.");
     }
-    handler.objects.clear(); // Очищаем текущие данные
+    handler.objects.clear(); 
     GameObject obj;
     while (file >> obj.title >> obj.hitPoints) {
-        handler.objects.push_back(obj); // Загружаем объекты
+        handler.objects.push_back(obj);
     }
 }
 
@@ -69,11 +64,9 @@ int main() {
         handler.appendObject(GameObject("Воин", 120));
         handler.appendObject(GameObject("Маг", 70));
 
-        // Сохраняем в файл
         storeData(handler, "data.txt");
         std::cout << "Данные сохранены!\n";
 
-        // Загружаем из файла
         ObjectHandler loadedHandler;
         loadData(loadedHandler, "data.txt");
         std::cout << "Загруженные объекты:\n";
